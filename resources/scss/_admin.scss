@@ -21,8 +21,13 @@ header {
 
 .main-wrapper{
     height: calc(100vh - 60px);
-    side-wrapper{
-        width:calc(100% - 200px)
+    .side-wrapper{
+        width:calc(100vw - 200px);
+        display:flex;
+        justify-content: center;
+        .container-cm{
+            width:90%;
+        }
     }
 }
 aside {
