@@ -38,7 +38,7 @@ class ProjectRequest extends FormRequest
             'description.required' => 'You must insert a description.',
             'description.min' => 'The description must have at least :min characters.',
             'description.max' => 'The description can have at most :max characters.',
-            'publication_date.required' => 'You must insert a sale date.',
+            'publication_date.required' => 'You must insert a publication date date.',
         ];
     }
 }

@@ -17,7 +17,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::orderBy('id', 'desc')->paginate(5);
+        $projects = Project::orderBy('id', 'desc')->paginate(4);
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -37,12 +37,12 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProjectRequest $request)
     {
-        $data = $request->all();
+        $form_data = $request->all();
         $new_project = new Project();
-        $new_project->fill($data);
-        $new_project->slug = Str::slug($request->title, '-');
+        $form_data['slug'] = Project::generateSlug($form_data['title']);
+        $new_project->fill($form_data);
         $new_project->save();
         return redirect()-> route('admin.projects.show',$new_project->id);
     }
@@ -79,15 +79,16 @@ class ProjectController extends Controller
     public function update(ProjectRequest $request, Project $project)
     {
         $form_data = $request->all();
-        if($project->title === $form_data['title']){
+    
+        if ($project->title === $form_data['title']) {
             $form_data['slug'] = $project->slug;
-        }
-        else{
+        } else {
             $form_data['slug'] = Project::generateSlug($form_data['title']);
         }
-
+    
         $project->update($form_data);
-        return redirect()-> route('admin.projects.show', $project);
+    
+        return redirect()->route('admin.projects.show', ['project' => $project->id]);
     }
 
     /**
