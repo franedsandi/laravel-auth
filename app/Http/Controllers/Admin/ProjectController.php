@@ -88,7 +88,7 @@ class ProjectController extends Controller
     
         $project->update($form_data);
     
-        return redirect()->route('admin.projects.show', ['project' => $project->id]);
+        return redirect()->route('admin.projects.show', ['project' => $project->id])->with('updated', "The project $project->title have been updated");
     }
 
     /**

@@ -2,12 +2,17 @@
 
 @section('content')
     <div class="top d-flex align-items-center justify-content-between my-4">
-        <h1 class="text-white">Projects List</h1>
+        <h1>Projects List</h1>
         <a class="btn btn-light" href="{{route('admin.projects.create')}}">
             <i class="fa-solid fa-plus fa-beat-fade"></i>
             <span>Add new project</span>
         </a>
     </div>
+    @if(session('deleted'))
+    <div class="alert alert-danger">
+        {{ session('deleted') }}
+    </div>
+    @endif
     <table class="table table-dark">
         <thead>
             <tr>
@@ -25,9 +30,9 @@
                 <td>{{ $project->description }}</td>
                 <td>
                     <div class="d-flex gap-2">
-                        <a class="btn btn-outline-success" href="{{ route('admin.projects.show' , $project)}}"><i class="fa-solid fa-eye"></i></a>
-                        <a class="btn btn-outline-warning" href="{{ route('admin.projects.edit' , $project)}}"><i class="fa-solid fa-pen-to-square"></i></a>
-                        @include('admin.projects.delete_boton')
+                        @include('generic_stuff.generic_show_buton', ['route' => route('admin.projects.show', $project)])
+                        @include('generic_stuff.generic_edit_buton', ['route' => route('admin.projects.edit', $project)])
+                        @include('generic_stuff.generic_delete_buton', ['route' => route('admin.projects.destroy', $project)])
                     </div>
                 </td>
             </tr>
