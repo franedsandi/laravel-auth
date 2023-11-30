@@ -18,6 +18,10 @@
         <label for="publication_date" class="form-label">Project Publication Date</label>
         <input type="date" class="form-control" id="publication_date" name="publication_date" value="{{$project->publication_date}}">
     </div>
+    <div class="mb-3">
+        <label for="image" class="form-label">Project Picture</label>
+        <input type="file" class="form-control" id="image" name="image" value="{{$project->image}}">
+    </div>
     <div class="d-flex gap-2 mt-2">
         <button type="submit" class="btn btn-warning"> Submit</button>
         <button type="reset" class="btn btn-danger"> Reset</button>

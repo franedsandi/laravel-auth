@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProjectRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -40,13 +41,18 @@ class ProjectController extends Controller
     public function store(ProjectRequest $request)
     {
         $form_data = $request->all();
-        $new_project = new Project();
         $form_data['slug'] = Project::generateSlug($form_data['title']);
-        $new_project->fill($form_data);
-        $new_project->save();
-        return redirect()-> route('admin.projects.show',$new_project->id);
+    
+        if (array_key_exists('image', $form_data)) {
+            $uploaded_file = $request->file('image');
+            $form_data['image_original_name'] = $uploaded_file->getClientOriginalName();
+            $form_data['image'] = Storage::put('uploads', $uploaded_file);
+        }
+    
+        $new_project = Project::create($form_data);
+    
+        return redirect()->route('admin.projects.show', $new_project->id);
     }
-
     /**
      * Display the specified resource.
      *

@@ -6,7 +6,6 @@
 <div class="container">
 
     <h1 class="py-5">Project Details</h1>
-
         @if(session('updated'))
             <div class="alert alert-success">
                 {{ session('updated') }}
