@@ -2,7 +2,7 @@
 @section('content')
 <h1>Modify the information of the project {{$project->title}}</h1>
 
-<form action="{{ route('admin.projects.update', $project) }}" method="POST">
+<form action="{{ route('admin.projects.update', $project) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="mb-3">
@@ -20,7 +20,11 @@
     </div>
     <div class="mb-3">
         <label for="image" class="form-label">Project Picture</label>
-        <input type="file" class="form-control" id="image" name="image" value="{{$project->image}}">
+        <input type="file" class="form-control" id="image" name="image">
+        @if ($project)
+            <img width="150px" src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}">
+        @endif
+        
     </div>
     <div class="d-flex gap-2 mt-2">
         <button type="submit" class="btn btn-warning"> Submit</button>

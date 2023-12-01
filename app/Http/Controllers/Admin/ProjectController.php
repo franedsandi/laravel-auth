@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ProjectRequest;
 use Illuminate\Support\Facades\Storage;
 
+
 class ProjectController extends Controller
 {
     /**
@@ -44,9 +45,8 @@ class ProjectController extends Controller
         $form_data['slug'] = Project::generateSlug($form_data['title']);
     
         if (array_key_exists('image', $form_data)) {
-            $uploaded_file = $request->file('image');
-            $form_data['image_original_name'] = $uploaded_file->getClientOriginalName();
-            $form_data['image'] = Storage::put('uploads', $uploaded_file);
+            $form_data['image_original_name'] = $request->file('image')->getClientOriginalName();
+            $form_data['image'] = Storage::put('uploads', $form_data['image']);
         }
     
         $new_project = Project::create($form_data);
@@ -91,6 +91,14 @@ class ProjectController extends Controller
         } else {
             $form_data['slug'] = Project::generateSlug($form_data['title']);
         }
+        if(array_key_exists('image', $form_data)){
+            if($project->image){
+                Storage::disk('public')->delete($project->image);
+            }
+            $form_data['image_original_name'] = $request->file('image')->getClientOriginalName();
+            $form_data['image'] = Storage::put('uploads', $form_data['image']);
+        }
+
     
         $project->update($form_data);
     
